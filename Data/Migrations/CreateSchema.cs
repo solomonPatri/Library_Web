@@ -20,7 +20,10 @@ namespace Library_Web.Data.Migrations
             Create.Table("library")
                 .WithColumn("Id").AsInt32().PrimaryKey().Identity()
                   .WithColumn("Name").AsString(120).NotNullable()
-                  .WithColumn("");
+                  .WithColumn("Places").AsString(120).NotNullable()
+                  .WithColumn("Address").AsString(120).NotNullable()
+                  .WithColumn("SoldBooks").AsInt32().NotNullable()
+                  .WithColumn("Inauguration").AsDate().NotNullable();
         }
 
 

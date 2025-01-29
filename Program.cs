@@ -1,7 +1,7 @@
-using Library_Web.Object.Dtos;
+using Library_Web.Libraries.Dtos;
 using Library_Web.Data;
 using Microsoft.EntityFrameworkCore;
-using Library_Web.Object.Repository;
+using Library_Web.Libraries.Repository;
 using FluentMigrator.Runner;
 
 public class Program
