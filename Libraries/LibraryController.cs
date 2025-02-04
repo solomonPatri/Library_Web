@@ -35,10 +35,10 @@ namespace Library_Web.Libraries
 
         [HttpPost("create")]
 
-        public async Task<ActionResult<CreateLibraryResponse>>   CreateLibrary(CreateLibraryRequest createRequest)
+        public async Task<ActionResult<LibraryResponse>>   CreateAsync([FromBody]LibraryRequest createRequest)
         {
 
-            CreateLibraryResponse create = await _libraryRepo.CreateLibrary(createRequest);
+            LibraryResponse create = await _libraryRepo.CreateAsync(createRequest);
 
             return Created("", create);
 
@@ -46,6 +46,48 @@ namespace Library_Web.Libraries
 
 
         }
+
+        [HttpDelete("delete/{id}")]
+
+        public async Task<ActionResult<LibraryResponse>> DeleteAsync([FromRoute]int id)
+        {
+            LibraryResponse response = await _libraryRepo.DeleteAsync(id);
+            return Accepted("", response);
+
+
+        }
+
+
+        [HttpPut("edit/{id}")]
+
+
+        public async Task<ActionResult<LibraryResponse>> UpdateAsync([FromRoute]int id, [FromBody] LibraryUpdateRequest update)
+        {
+
+
+            LibraryResponse response = await _libraryRepo.UpdateAsync(id, update);
+
+            return Accepted(" ", response);
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

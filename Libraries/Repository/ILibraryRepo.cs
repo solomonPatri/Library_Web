@@ -9,8 +9,10 @@ namespace Library_Web.Libraries.Repository
 
         Task<List<Library>> GetAllAsync();
 
-        Task<CreateLibraryResponse> CreateLibrary(CreateLibraryRequest createResquet);
-       
+        Task<LibraryResponse> CreateAsync(LibraryRequest createResquet);
+
+        Task<LibraryResponse> DeleteAsync(int id);
+        Task<LibraryResponse> UpdateAsync(int id, LibraryUpdateRequest lib);
 
 
         

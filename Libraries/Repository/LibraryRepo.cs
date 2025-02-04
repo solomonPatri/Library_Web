@@ -30,7 +30,7 @@ namespace Library_Web.Libraries.Repository
         }
 
 
-       public async Task<CreateLibraryResponse> CreateLibrary(CreateLibraryRequest createResquet)
+       public async Task<LibraryResponse> CreateAsync(LibraryRequest createResquet)
         {
             Library libr = _mapper.Map<Library>(createResquet);
 
@@ -38,15 +38,79 @@ namespace Library_Web.Libraries.Repository
 
             await _appdbcontext.SaveChangesAsync();
 
-            CreateLibraryResponse response = _mapper.Map<CreateLibraryResponse>(libr);
+            LibraryResponse response = _mapper.Map<LibraryResponse>(libr);
 
             return response;
 
+        }
+
+        public async Task<LibraryResponse> DeleteAsync(int id)
+        {
+
+            Library lib = await _appdbcontext.Libraries.FindAsync(id);
+
+            LibraryResponse response = _mapper.Map<LibraryResponse>(lib);
 
 
+            _appdbcontext.SaveChangesAsync();
 
+            return response;
+        }
+
+
+        public async Task<LibraryResponse> UpdateAsync(int id, LibraryUpdateRequest update)
+        {
+
+            Library lib = await _appdbcontext.Libraries.FindAsync(id);
+
+            if (update.Name != null)
+            {
+
+                lib.Name = update.Name;
+
+            }
+
+            if (update.Address != null)
+            {
+
+                lib.Address = update.Address;
+
+            }
+
+            if (update.Places.HasValue)
+            {
+
+                lib.Places = update.Places.Value;
+            }
+
+            if (update.Inauguration.HasValue)
+            {
+
+                lib.Inauguration = update.Inauguration.Value;
+
+            }
+
+
+            if (update.SoldBooks.HasValue)
+            {
+                lib.SoldBooks = update.SoldBooks.Value;
+            }
+
+
+            _appdbcontext.Libraries.Update(lib);
+
+
+            await _appdbcontext.SaveChangesAsync();
+
+            LibraryResponse response = _mapper.Map<LibraryResponse>(lib);
+
+            return response;
 
         }
+
+
+
+
 
 
 
