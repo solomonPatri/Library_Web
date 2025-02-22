@@ -108,14 +108,46 @@ namespace Library_Web.Libraries.Repository
 
         }
 
+       
+        public async Task<LibraryNameList> GetAllNames()
+        {
+            List<string> names = await _appdbcontext.Libraries.Select(n => n.Name).ToListAsync();
+
+            LibraryNameList response = new LibraryNameList();
+
+            response.Names = names;
+
+            return response;
+
+
+        }
+
+
+        public async Task<LibraryResponse> FindByName(string name)
+        {
+
+            Library found = await _appdbcontext.Libraries.FirstOrDefaultAsync(n => n.Name.Equals(name));
+
+            LibraryResponse response = _mapper.Map<LibraryResponse>(found);
+
+            return response;
 
 
 
+        }
 
 
+        public async Task<LibraryResponse> FindById(int id)
+        {
+
+            Library found = await _appdbcontext.Libraries.FindAsync(id);
+
+            LibraryResponse response = _mapper.Map<LibraryResponse>(found);
+
+            return response;
 
 
-
+        }
 
 
 

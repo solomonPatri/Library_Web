@@ -1,8 +1,11 @@
-using Library_Web.Libraries.Dtos;
-using Library_Web.Data;
-using Microsoft.EntityFrameworkCore;
-using Library_Web.Libraries.Repository;
 using FluentMigrator.Runner;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
+using Library_Web.Data;
+using System.Net.WebSockets;
+using Library_Web.Libraries.Repository;
+using Library_Web.Libraries.Services;
 
 public class Program
 {
@@ -29,6 +32,8 @@ public class Program
         new MySqlServerVersion(new Version(8, 0, 21))));
 
         builder.Services.AddScoped<ILibraryRepo, LibraryRepo>();
+        builder.Services.AddScoped<ILibraryCommandService, LibraryCommandService>();
+        builder.Services.AddScoped<ILibraryQueryService, LibraryQueryService>();
 
         builder.Services.AddFluentMigratorCore()
             .ConfigureRunner(rb => rb.AddMySql5()
@@ -40,6 +45,7 @@ public class Program
 
         var app = builder.Build();
 
+
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
@@ -48,25 +54,22 @@ public class Program
             app.MapControllers();
 
         }
-        
-        using(var scope = app.Services.CreateScope())
-        {
 
+
+        using (var scope = app.Services.CreateScope())
+        {
             try
             {
                 var runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
 
-                runner = scope.ServiceProvider.GetRequiredService<IMigrationRunner>();
                 runner.MigrateUp();
-                Console.WriteLine("Migrare cu succes");
-
-            }catch(Exception ex)
-            {
-
-                Console.WriteLine("Erroare migrare");
+                Console.WriteLine("Migrarea cu succes");
 
             }
-
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erroare Migrare");
+            }
         }
 
         app.UseCors("library-api");

@@ -14,7 +14,11 @@ namespace Library_Web.Libraries.Repository
         Task<LibraryResponse> DeleteAsync(int id);
         Task<LibraryResponse> UpdateAsync(int id, LibraryUpdateRequest lib);
 
+        Task<LibraryNameList> GetAllNames();
 
+        Task<LibraryResponse> FindByName(string name);
+
+        Task<LibraryResponse> FindById(int id);
         
 
 
